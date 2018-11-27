@@ -1,8 +1,19 @@
-import Vue from 'vue'
+import driver from '@/api/driver'
 
-export function loadForm(formId) {
-  return Vue.axios.get(`api/public/forms/${formId}`)
-    .then(response => {
-      return response.data
+const fetchForm = (formId) => {
+  return driver
+    .get(`api/public/forms/${formId}`)
+    .then(result => {
+      return result
+    })
+    .catch(error => {
+      return error
     })
 }
+
+export async function loadForm(formId) {
+  const formData = await fetchForm(formId)
+  return formData
+}
+
+export { fetchForm }
