@@ -26,6 +26,11 @@
     "index.js.map"
   ],
   "homepage": "https://github.com/UnicornGlobal/howzit-vue#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "unicorn-vue-toaster": "^1.0.1",
+    "vue-axios": "^2.1.4"
+  },
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
