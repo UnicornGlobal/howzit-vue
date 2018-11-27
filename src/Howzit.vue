@@ -29,13 +29,23 @@ export default {
   data() {
     return {
       loaded: false,
+      errored: false,
       form: {},
       token: null
     }
   },
   async mounted() {
-    const form = await loadForm(this.formId)
-    this.form = form
+    const data = await loadForm(this.formId)
+
+    if (!data.form || !data.token) {
+      console.log('Bad configuration received from Howzit')
+      this.errored = true
+      return
+    }
+
+    this.form = data.form
+    this.token = data.token
+    this.loaded = true
   }
 }
 </script>
