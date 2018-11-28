@@ -41,6 +41,7 @@
     "codecov": "^3.1.0",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
+    "dotenv-webpack": "^1.5.5",
     "eslint": "^5.6.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",
