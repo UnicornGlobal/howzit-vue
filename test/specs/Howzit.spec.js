@@ -89,6 +89,10 @@ describe('Howzit.vue', () => {
     expect(howzit.vm.token).toEqual(null)
     expect(howzit.contains('div')).toEqual(true)
     expect(howzit.find('div').text()).toEqual('LOADING')
+    expect(howzit.find('div.howzit-loading').exists()).toEqual(true)
+    expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
+    expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
+    expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
     expect(howzit.findAll('label').length).toEqual(0)
     expect(howzit.findAll('input').length).toEqual(0)
 
@@ -97,6 +101,8 @@ describe('Howzit.vue', () => {
         expect(howzit.vm.errored).toEqual(false)
         expect(howzit.vm.loaded).toEqual(true)
         expect(howzit.vm.token).toEqual('c089871c-af8d-435c-98ca-41d66d116bca')
+        expect(howzit.find('div.howzit-form').exists()).toEqual(true)
+        expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
 
         expect(howzit.find('div').text()).not.toEqual('LOADING')
         expect(howzit.findAll('p').length).toEqual(1)
@@ -204,6 +210,11 @@ describe('Howzit.vue', () => {
         expect(howzit.vm.errored).toEqual(false)
         expect(howzit.find('div').text()).not.toEqual('SUBMITTED')
 
+        expect(howzit.find('div.howzit-form').exists()).toEqual(true)
+        expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
+        expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
+        expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
+
         howzit.vm.submit()
 
         setTimeout(() => {
@@ -211,6 +222,11 @@ describe('Howzit.vue', () => {
             expect(howzit.vm.submitted).toEqual(true)
             expect(howzit.vm.errored).toEqual(false)
             expect(howzit.find('div').text()).toEqual('SUBMITTED')
+
+            expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-submitted').exists()).toEqual(true)
           })
         }, 1)
 
@@ -322,6 +338,11 @@ describe('Howzit.vue', () => {
             expect(howzit.vm.submitted).toEqual(false)
             expect(howzit.vm.errored).toEqual(true)
             expect(howzit.find('div').text()).toEqual('ERROR')
+
+            expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-error').exists()).toEqual(true)
+            expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
           })
         }, 1)
 

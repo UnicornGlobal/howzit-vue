@@ -1,12 +1,12 @@
 <template>
   <div class="howzit">
-    <div v-if="errored">
+    <div v-if="errored" class="howzit-error">
       ERROR
     </div>
-    <div v-else-if="submitted">
+    <div v-else-if="submitted" class="howzit-submitted">
       SUBMITTED
     </div>
-    <div v-else-if="loaded">
+    <div v-else-if="loaded" class="howzit-form">
       <p>Contact {{ form.name }}</p>
       <div v-for="(field, key) in form.fields" :key="key">
         <label :for="field.name">{{ field.label }}</label>
@@ -14,7 +14,7 @@
       </div>
       <button type="submit" @click="submit">SUBMIT</button>
     </div>
-    <div v-else>
+    <div v-else class="howzit-loading">
       LOADING
     </div>
   </div>
