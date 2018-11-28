@@ -2,7 +2,18 @@ import driver from '@/api/driver'
 
 const fetchForm = (formId) => {
   return driver
-    .get(`api/public/forms/${formId}`)
+    .get(`/public/forms/${formId}`)
+    .then(result => {
+      return result
+    })
+    .catch(error => {
+      return error
+    })
+}
+
+const submitForm = (fields, formId) => {
+  return driver
+    .post(`/public/forms/${formId}/response`)
     .then(result => {
       return result
     })
@@ -16,4 +27,9 @@ export async function loadForm(formId) {
   return formData
 }
 
-export { fetchForm }
+export async function sendForm(fields, formId) {
+  const response = await submitForm(fields, formId)
+  return response
+}
+
+export { fetchForm, submitForm }

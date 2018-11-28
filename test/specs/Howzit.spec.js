@@ -109,4 +109,226 @@ describe('Howzit.vue', () => {
 
     stub.restore()
   })
+
+  it('Successfully submits a form', () => {
+    let stub = sinon.stub(driver, 'get').resolves({
+      'form': {
+        'name': 'Formed Form 225',
+        'owner_email': 'test@howzit.com',
+        'fields': [
+          {
+            'name': 'product',
+            'label': 'Product',
+            'type': 'text',
+            'min_length': 3,
+            'max_length': 15,
+            'regex': null,
+            'required': 1,
+            'order_index': 1
+          },
+          {
+            'name': 'email',
+            'label': 'Email Address',
+            'type': 'email',
+            'min_length': 7,
+            'max_length': 56,
+            'regex': null,
+            'required': 1,
+            'order_index': 2
+          },
+          {
+            'name': 'message',
+            'label': 'Your message',
+            'type': 'text',
+            'min_length': 10,
+            'max_length': 512,
+            'regex': null,
+            'required': 1,
+            'order_index': 3
+          }
+        ]
+      },
+      'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
+    })
+
+    let howzit = shallowMount(Howzit, {
+      localVue,
+      propsData: {
+        formId: 'abc'
+      }
+    })
+
+    setTimeout(() => {
+      howzit.vm.$nextTick(() => {
+        howzit.setData({
+          form: [
+            {
+              'name': 'product',
+              'label': 'Product',
+              'type': 'text',
+              'min_length': 3,
+              'max_length': 15,
+              'regex': null,
+              'required': 1,
+              'order_index': 1,
+              'value': 'a'
+            },
+            {
+              'name': 'email',
+              'label': 'Email Address',
+              'type': 'email',
+              'min_length': 7,
+              'max_length': 56,
+              'regex': null,
+              'required': 1,
+              'order_index': 2,
+              'value': 'b'
+            },
+            {
+              'name': 'message',
+              'label': 'Your message',
+              'type': 'text',
+              'min_length': 10,
+              'max_length': 512,
+              'regex': null,
+              'required': 1,
+              'order_index': 3,
+              'value': 'c'
+            }
+          ]
+        })
+
+        let sendStub = sinon.stub(driver, 'post').resolves({data: 'OK'})
+
+        expect(howzit.vm.submitted).toEqual(false)
+        expect(howzit.vm.errored).toEqual(false)
+        expect(howzit.find('div').text()).not.toEqual('SUBMITTED')
+
+        howzit.vm.submit()
+
+        setTimeout(() => {
+          howzit.vm.$nextTick(() => {
+            expect(howzit.vm.submitted).toEqual(true)
+            expect(howzit.vm.errored).toEqual(false)
+            expect(howzit.find('div').text()).toEqual('SUBMITTED')
+          })
+        }, 1)
+
+        sendStub.restore()
+      })
+    }, 1)
+
+    stub.restore()
+  })
+
+  it('Handles bad form submission', () => {
+    let stub = sinon.stub(driver, 'get').resolves({
+      'form': {
+        'name': 'Formed Form 225',
+        'owner_email': 'test@howzit.com',
+        'fields': [
+          {
+            'name': 'product',
+            'label': 'Product',
+            'type': 'text',
+            'min_length': 3,
+            'max_length': 15,
+            'regex': null,
+            'required': 1,
+            'order_index': 1
+          },
+          {
+            'name': 'email',
+            'label': 'Email Address',
+            'type': 'email',
+            'min_length': 7,
+            'max_length': 56,
+            'regex': null,
+            'required': 1,
+            'order_index': 2
+          },
+          {
+            'name': 'message',
+            'label': 'Your message',
+            'type': 'text',
+            'min_length': 10,
+            'max_length': 512,
+            'regex': null,
+            'required': 1,
+            'order_index': 3
+          }
+        ]
+      },
+      'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
+    })
+
+    let howzit = shallowMount(Howzit, {
+      localVue,
+      propsData: {
+        formId: 'abc'
+      }
+    })
+
+    setTimeout(() => {
+      howzit.vm.$nextTick(() => {
+        howzit.setData({
+          form: [
+            {
+              'name': 'product',
+              'label': 'Product',
+              'type': 'text',
+              'min_length': 3,
+              'max_length': 15,
+              'regex': null,
+              'required': 1,
+              'order_index': 1,
+              'value': 'a'
+            },
+            {
+              'name': 'email',
+              'label': 'Email Address',
+              'type': 'email',
+              'min_length': 7,
+              'max_length': 56,
+              'regex': null,
+              'required': 1,
+              'order_index': 2,
+              'value': 'b'
+            },
+            {
+              'name': 'message',
+              'label': 'Your message',
+              'type': 'text',
+              'min_length': 10,
+              'max_length': 512,
+              'regex': null,
+              'required': 1,
+              'order_index': 3,
+              'value': 'c'
+            }
+          ]
+        })
+
+        let sendStub = sinon.stub(driver, 'post').rejects({error: 'Server error'})
+
+        expect(howzit.vm.submitted).toEqual(false)
+        expect(howzit.vm.errored).toEqual(false)
+        expect(howzit.find('div').text()).not.toEqual('ERROR')
+
+        howzit.vm.submit()
+
+        setTimeout(() => {
+          howzit.vm.$nextTick(() => {
+            expect(howzit.vm.submitted).toEqual(false)
+            expect(howzit.vm.errored).toEqual(true)
+            expect(howzit.find('div').text()).toEqual('ERROR')
+          })
+        }, 1)
+
+        sendStub.restore()
+      })
+    }, 1)
+
+    stub.restore()
+  })
 })

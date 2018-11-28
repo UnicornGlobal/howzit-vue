@@ -1,4 +1,4 @@
-import { loadForm, fetchForm } from '@/api/howzit.js'
+import { loadForm, fetchForm, submitForm, sendForm } from '@/api/howzit.js'
 import driver from '@/api/driver.js'
 
 import sinon from 'sinon'
@@ -32,6 +32,39 @@ describe('Howzit API', () => {
 
       const result = await loadForm(1)
       expect(result.data).toEqual('xxyy')
+
+      stub.restore()
+    })
+  })
+
+  describe('Submit Form (Promise)', () => {
+    it('Handles Success', () => {
+      let stub = sinon.stub(driver, 'post').resolves({data: 'OK'})
+
+      const result = submitForm([], 'xxxx').then(result => {
+        expect(result.data).toEqual('OK')
+      })
+
+      stub.restore()
+    })
+
+    it('Handles Failures', () => {
+      let stub = sinon.stub(driver, 'post').rejects()
+
+      const result = submitForm([], 'xx').then(error => {
+        expect(typeof error).toEqual('object')
+      })
+
+      stub.restore()
+    })
+  })
+
+  describe('Submit Form (Async)', () => {
+    it('Loads', async () => {
+      let stub = sinon.stub(driver, 'post').resolves({data: 'OK'})
+
+      const result = await sendForm([], 'xx')
+      expect(result.data).toEqual('OK')
 
       stub.restore()
     })
