@@ -1,9 +1,10 @@
 <template>
   <div>
     <div v-if="loaded">
+      <p>Contact {{ form.name }}</p>
       <div v-for="(field, key) in form.fields" :key="key">
-        {{ key }}
-        {{ field }}
+        <label :for="field.name">{{ field.label }}</label>
+        <input :type="field.type" :name="field.name" :required="field.required ? true : false" />
       </div>
     </div>
     <div v-else>

@@ -88,13 +88,25 @@ describe('Howzit.vue', () => {
     expect(howzit.vm.loaded).toEqual(false)
     expect(howzit.vm.token).toEqual(null)
     expect(howzit.contains('div')).toEqual(true)
+    expect(howzit.find('div').text()).toEqual('LOADING')
+    expect(howzit.findAll('label').length).toEqual(0)
+    expect(howzit.findAll('input').length).toEqual(0)
 
     setTimeout(() => {
       howzit.vm.$nextTick(() => {
         expect(howzit.vm.errored).toEqual(false)
         expect(howzit.vm.loaded).toEqual(true)
         expect(howzit.vm.token).toEqual('c089871c-af8d-435c-98ca-41d66d116bca')
+
+        expect(howzit.find('div').text()).not.toEqual('LOADING')
+        expect(howzit.findAll('p').length).toEqual(1)
+        expect(howzit.find('p').text()).toEqual('Contact Formed Form 225')
+        expect(howzit.findAll('div').length).toEqual(5)
+        expect(howzit.findAll('label').length).toEqual(3)
+        expect(howzit.findAll('input').length).toEqual(3)
       })
     }, 1)
+
+    stub.restore()
   })
 })
