@@ -16,7 +16,7 @@ describe('Howzit.vue', () => {
     expect(typeof localVue.prototype.$howzit).toBe('object')
   })
 
-  it('Handled bad remote form', () => {
+  it('Handles bad remote form', () => {
     let stub = sinon.stub(driver, 'get').resolves({x:'x'})
 
     let howzit = shallowMount(Howzit, {

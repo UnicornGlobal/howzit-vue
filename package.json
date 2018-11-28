@@ -2,9 +2,10 @@
   "name": "howzit-vue",
   "version": "1.0.0",
   "description": "Vue component for Howzit contact forms",
+  "author": "Unicorn Global et al",
+  "license": "MIT",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha-webpack --ui bdd --webpack-config webpack.config.js --require test/setup.js \"./test/specs/**/*.spec.js\""
   },
   "repository": {
@@ -14,10 +15,9 @@
   "keywords": [
     "contact",
     "form",
-    "vue"
+    "vue",
+    "howzit"
   ],
-  "author": "Unicorn Global et al",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/UnicornGlobal/howzit-vue/issues"
   },
@@ -27,9 +27,7 @@
   ],
   "homepage": "https://github.com/UnicornGlobal/howzit-vue#readme",
   "dependencies": {
-    "axios": "^0.18.0",
-    "unicorn-vue-toaster": "^1.0.1",
-    "vue-axios": "^2.1.4"
+    "axios": "^0.18.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
