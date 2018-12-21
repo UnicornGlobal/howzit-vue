@@ -1,15 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: './src/main.js',
   mode: 'development',
   plugins: [
-    new Dotenv({
-      path: path.resolve(__dirname, './.env')
-    }),
     new VueLoaderPlugin()
   ],
   output: {
@@ -29,8 +25,20 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [
+          path.resolve('src')
+        ],
+        options: {
+          fix: true
+        }
+      },
+      {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
+        exclude: /node_modules/
       },
       {
         test: /\.js$/,
@@ -38,10 +46,6 @@ module.exports = {
         exclude: /node_modules/
       }
     ]
-  },
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
   },
   performance: {
     hints: false
@@ -62,6 +66,5 @@ if (process.env.NODE_ENV === 'production') {
 
 // test specific setups
 if (process.env.NODE_ENV === 'test') {
-  module.exports.externals = [require('webpack-node-externals')()]
-  module.exports.devtool = 'eval'
+  module.exports.devtool = 'inline-cheap-module-source-map'
 }
