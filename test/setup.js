@@ -1,5 +1,5 @@
-// setup JSDOM
 require('jsdom-global')()
-
-// make expect available globally
-global.expect = require('expect')
+const chai = require('chai')
+global.chai = chai
+global.expect = chai.expect
+global.assert = chai.assert

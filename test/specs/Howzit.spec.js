@@ -13,7 +13,7 @@ localVue.use(Howzit, {
 
 describe('Howzit.vue', () => {
   it('Installs correctly', () => {
-    expect(typeof localVue.prototype.$howzit).toBe('object')
+    expect(localVue.prototype.$howzit).to.be.an('object')
   })
 
   it('Handles bad remote form', () => {
@@ -26,11 +26,11 @@ describe('Howzit.vue', () => {
       }
     })
 
-    expect(howzit.vm.errored).toEqual(false)
+    expect(howzit.vm.errored).to.equal(false)
 
     setTimeout(() => {
       howzit.vm.$nextTick(() => {
-        expect(howzit.vm.errored).toEqual(true)
+        expect(howzit.vm.errored).to.equal(true)
       })
     }, 1)
 
@@ -85,31 +85,31 @@ describe('Howzit.vue', () => {
       }
     })
 
-    expect(howzit.vm.loaded).toEqual(false)
-    expect(howzit.vm.token).toEqual(null)
-    expect(howzit.contains('div')).toEqual(true)
-    expect(howzit.find('div').text()).toEqual('LOADING')
-    expect(howzit.find('div.howzit-loading').exists()).toEqual(true)
-    expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
-    expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
-    expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
-    expect(howzit.findAll('label').length).toEqual(0)
-    expect(howzit.findAll('input').length).toEqual(0)
+    expect(howzit.vm.loaded).to.equal(false)
+    expect(howzit.vm.token).to.equal(null)
+    expect(howzit.contains('div')).to.equal(true)
+    expect(howzit.find('div').text()).to.equal('LOADING')
+    expect(howzit.find('div.howzit-loading').exists()).to.equal(true)
+    expect(howzit.find('div.howzit-error').exists()).not.to.equal(true)
+    expect(howzit.find('div.howzit-submitted').exists()).not.to.equal(true)
+    expect(howzit.find('div.howzit-form').exists()).not.to.equal(true)
+    expect(howzit.findAll('label').length).to.equal(0)
+    expect(howzit.findAll('input').length).to.equal(0)
 
     setTimeout(() => {
       howzit.vm.$nextTick(() => {
-        expect(howzit.vm.errored).toEqual(false)
-        expect(howzit.vm.loaded).toEqual(true)
-        expect(howzit.vm.token).toEqual('c089871c-af8d-435c-98ca-41d66d116bca')
-        expect(howzit.find('div.howzit-form').exists()).toEqual(true)
-        expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
+        expect(howzit.vm.errored).to.equal(false)
+        expect(howzit.vm.loaded).to.equal(true)
+        expect(howzit.vm.token).to.equal('c089871c-af8d-435c-98ca-41d66d116bca')
+        expect(howzit.find('div.howzit-form').exists()).to.equal(true)
+        expect(howzit.find('div.howzit-loading').exists()).not.to.equal(true)
 
-        expect(howzit.find('div').text()).not.toEqual('LOADING')
-        expect(howzit.findAll('p').length).toEqual(1)
-        expect(howzit.find('p').text()).toEqual('Contact Formed Form 225')
-        expect(howzit.findAll('div').length).toEqual(5)
-        expect(howzit.findAll('label').length).toEqual(3)
-        expect(howzit.findAll('input').length).toEqual(3)
+        expect(howzit.find('div').text()).not.to.equal('LOADING')
+        expect(howzit.findAll('p').length).to.equal(1)
+        expect(howzit.find('p').text()).to.equal('Contact Formed Form 225')
+        expect(howzit.findAll('div').length).to.equal(5)
+        expect(howzit.findAll('label').length).to.equal(3)
+        expect(howzit.findAll('input').length).to.equal(3)
       })
     }, 1)
 
@@ -206,27 +206,27 @@ describe('Howzit.vue', () => {
 
         let sendStub = sinon.stub(driver, 'post').resolves({data: 'OK'})
 
-        expect(howzit.vm.submitted).toEqual(false)
-        expect(howzit.vm.errored).toEqual(false)
-        expect(howzit.find('div').text()).not.toEqual('SUBMITTED')
+        expect(howzit.vm.submitted).to.equal(false)
+        expect(howzit.vm.errored).to.equal(false)
+        expect(howzit.find('div').text()).not.to.equal('SUBMITTED')
 
-        expect(howzit.find('div.howzit-form').exists()).toEqual(true)
-        expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
-        expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
-        expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
+        expect(howzit.find('div.howzit-form').exists()).to.equal(true)
+        expect(howzit.find('div.howzit-loading').exists()).not.to.equal(true)
+        expect(howzit.find('div.howzit-error').exists()).not.to.equal(true)
+        expect(howzit.find('div.howzit-submitted').exists()).not.to.equal(true)
 
         howzit.vm.submit()
 
         setTimeout(() => {
           howzit.vm.$nextTick(() => {
-            expect(howzit.vm.submitted).toEqual(true)
-            expect(howzit.vm.errored).toEqual(false)
-            expect(howzit.find('div').text()).toEqual('SUBMITTED')
+            expect(howzit.vm.submitted).to.equal(true)
+            expect(howzit.vm.errored).to.equal(false)
+            expect(howzit.find('div').text()).to.equal('SUBMITTED')
 
-            expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
-            expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
-            expect(howzit.find('div.howzit-error').exists()).not.toEqual(true)
-            expect(howzit.find('div.howzit-submitted').exists()).toEqual(true)
+            expect(howzit.find('div.howzit-form').exists()).not.to.equal(true)
+            expect(howzit.find('div.howzit-loading').exists()).not.to.equal(true)
+            expect(howzit.find('div.howzit-error').exists()).not.to.equal(true)
+            expect(howzit.find('div.howzit-submitted').exists()).to.equal(true)
           })
         }, 1)
 
@@ -327,22 +327,22 @@ describe('Howzit.vue', () => {
 
         let sendStub = sinon.stub(driver, 'post').rejects({error: 'Server error'})
 
-        expect(howzit.vm.submitted).toEqual(false)
-        expect(howzit.vm.errored).toEqual(false)
-        expect(howzit.find('div').text()).not.toEqual('ERROR')
+        expect(howzit.vm.submitted).to.equal(false)
+        expect(howzit.vm.errored).to.equal(false)
+        expect(howzit.find('div').text()).not.to.equal('ERROR')
 
         howzit.vm.submit()
 
         setTimeout(() => {
           howzit.vm.$nextTick(() => {
-            expect(howzit.vm.submitted).toEqual(false)
-            expect(howzit.vm.errored).toEqual(true)
-            expect(howzit.find('div').text()).toEqual('ERROR')
+            expect(howzit.vm.submitted).to.equal(false)
+            expect(howzit.vm.errored).to.equal(true)
+            expect(howzit.find('div').text()).to.equal('ERROR')
 
-            expect(howzit.find('div.howzit-form').exists()).not.toEqual(true)
-            expect(howzit.find('div.howzit-loading').exists()).not.toEqual(true)
-            expect(howzit.find('div.howzit-error').exists()).toEqual(true)
-            expect(howzit.find('div.howzit-submitted').exists()).not.toEqual(true)
+            expect(howzit.find('div.howzit-form').exists()).not.to.equal(true)
+            expect(howzit.find('div.howzit-loading').exists()).not.to.equal(true)
+            expect(howzit.find('div.howzit-error').exists()).to.equal(true)
+            expect(howzit.find('div.howzit-submitted').exists()).not.to.equal(true)
           })
         }, 1)
 
