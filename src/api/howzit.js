@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import driver from '@/api/driver'
 
 const fetchForm = (formId) => {
@@ -13,12 +14,16 @@ const fetchForm = (formId) => {
 
 const submitForm = (fields, formId) => {
   return driver
-    .post(`/public/forms/${formId}/response`)
+    .post(`/public/forms/${formId}/response`, fields)
     .then(result => {
       return result
     })
     .catch(error => {
-      return error
+      return {
+        data: {
+          success: false
+        }
+      }
     })
 }
 

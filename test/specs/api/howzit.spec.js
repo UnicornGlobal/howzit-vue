@@ -16,7 +16,7 @@ describe('Howzit API', () => {
     })
 
     it('Handles Failures', () => {
-      let stub = sinon.stub(driver, 'get').rejects()
+      let stub = sinon.stub(driver, 'get').rejects(new Error('Request failed with status code 500'))
 
       const result = fetchForm(1).then(error => {
         expect(typeof error).to.equal('object')
@@ -49,7 +49,7 @@ describe('Howzit API', () => {
     })
 
     it('Handles Failures', () => {
-      let stub = sinon.stub(driver, 'post').rejects()
+      let stub = sinon.stub(driver, 'get').rejects(new Error('Request failed with status code 500'))
 
       const result = submitForm([], 'xx').then(error => {
         expect(typeof error).to.equal('object')

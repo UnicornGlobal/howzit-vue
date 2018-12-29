@@ -5,44 +5,12 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 let localVue = createLocalVue()
-localVue.use(Howzit, {
-  config: {
-    name: 'Test Form'
-  }
-})
 
-describe('Howzit.vue', () => {
-  it('Installs correctly', () => {
-    expect(localVue.prototype.$howzit).to.be.an('object')
-  })
-
-  it('Handles bad remote form', () => {
-    let stub = sinon.stub(driver, 'get').resolves({x:'x'})
-
-    let howzit = shallowMount(Howzit, {
-      localVue,
-      propsData: {
-        formId: 'xxx'
-      }
-    })
-
-    expect(howzit.vm.errored).to.equal(false)
-
-    setTimeout(() => {
-      howzit.vm.$nextTick(() => {
-        expect(howzit.vm.errored).to.equal(true)
-      })
-    }, 1)
-
-    stub.restore()
-  })
-
-  it('Loads a remote form', () => {
-    let stub = sinon.stub(driver, 'get').resolves({
-      'form': {
-        'name': 'Formed Form 225',
-        'owner_email': 'test@howzit.com',
-        'fields': [
+let validFormResponse = {
+  'data': {
+    'form': {
+      'name': 'Formed Form 225',
+      'fields': [
           {
             'name': 'product',
             'label': 'Product',
@@ -73,10 +41,46 @@ describe('Howzit.vue', () => {
             'required': 1,
             'order_index': 3
           }
-        ]
-      },
-      'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
+        // ]
+      ]
+    },
+    'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
+  }
+}
+
+localVue.use(Howzit, {
+  url: 'https://localhost:9000',
+  appId: 'xxx'
+})
+
+describe('Howzit.vue', () => {
+  it('Installs correctly', () => {
+    expect(localVue.prototype.$howzit).to.be.an('object')
+  })
+
+  it('Handles bad remote form', () => {
+    let stub = sinon.stub(driver, 'get').resolves({x:'x'})
+
+    let howzit = shallowMount(Howzit, {
+      localVue,
+      propsData: {
+        formId: 'xxx'
+      }
     })
+
+    expect(howzit.vm.errored).to.equal(false)
+
+    setTimeout(() => {
+      howzit.vm.$nextTick(() => {
+        expect(howzit.vm.errored).to.equal(true)
+      })
+    }, 1)
+
+    stub.restore()
+  })
+
+  it('Loads a remote form', () => {
+    let stub = sinon.stub(driver, 'get').resolves(validFormResponse)
 
     let howzit = shallowMount(Howzit, {
       localVue,
@@ -117,45 +121,7 @@ describe('Howzit.vue', () => {
   })
 
   it('Successfully submits a form', () => {
-    let stub = sinon.stub(driver, 'get').resolves({
-      'form': {
-        'name': 'Formed Form 225',
-        'owner_email': 'test@howzit.com',
-        'fields': [
-          {
-            'name': 'product',
-            'label': 'Product',
-            'type': 'text',
-            'min_length': 3,
-            'max_length': 15,
-            'regex': null,
-            'required': 1,
-            'order_index': 1
-          },
-          {
-            'name': 'email',
-            'label': 'Email Address',
-            'type': 'email',
-            'min_length': 7,
-            'max_length': 56,
-            'regex': null,
-            'required': 1,
-            'order_index': 2
-          },
-          {
-            'name': 'message',
-            'label': 'Your message',
-            'type': 'text',
-            'min_length': 10,
-            'max_length': 512,
-            'regex': null,
-            'required': 1,
-            'order_index': 3
-          }
-        ]
-      },
-      'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
-    })
+    let stub = sinon.stub(driver, 'get').resolves(validFormResponse)
 
     let howzit = shallowMount(Howzit, {
       localVue,
@@ -167,44 +133,46 @@ describe('Howzit.vue', () => {
     setTimeout(() => {
       howzit.vm.$nextTick(() => {
         howzit.setData({
-          form: [
-            {
-              'name': 'product',
-              'label': 'Product',
-              'type': 'text',
-              'min_length': 3,
-              'max_length': 15,
-              'regex': null,
-              'required': 1,
-              'order_index': 1,
-              'value': 'a'
-            },
-            {
-              'name': 'email',
-              'label': 'Email Address',
-              'type': 'email',
-              'min_length': 7,
-              'max_length': 56,
-              'regex': null,
-              'required': 1,
-              'order_index': 2,
-              'value': 'b'
-            },
-            {
-              'name': 'message',
-              'label': 'Your message',
-              'type': 'text',
-              'min_length': 10,
-              'max_length': 512,
-              'regex': null,
-              'required': 1,
-              'order_index': 3,
-              'value': 'c'
-            }
-          ]
+          form: {
+            fields: [
+              {
+                'name': 'product',
+                'label': 'Product',
+                'type': 'text',
+                'min_length': 3,
+                'max_length': 15,
+                'regex': null,
+                'required': 1,
+                'order_index': 1,
+                'value': 'a'
+              },
+              {
+                'name': 'email',
+                'label': 'Email Address',
+                'type': 'email',
+                'min_length': 7,
+                'max_length': 56,
+                'regex': null,
+                'required': 1,
+                'order_index': 2,
+                'value': 'b'
+              },
+              {
+                'name': 'message',
+                'label': 'Your message',
+                'type': 'text',
+                'min_length': 10,
+                'max_length': 512,
+                'regex': null,
+                'required': 1,
+                'order_index': 3,
+                'value': 'c'
+              }
+            ]
+          }
         })
 
-        let sendStub = sinon.stub(driver, 'post').resolves({data: 'OK'})
+        let sendStub = sinon.stub(driver, 'post').resolves({data: {success:true}})
 
         expect(howzit.vm.submitted).to.equal(false)
         expect(howzit.vm.errored).to.equal(false)
@@ -238,45 +206,7 @@ describe('Howzit.vue', () => {
   })
 
   it('Handles bad form submission', () => {
-    let stub = sinon.stub(driver, 'get').resolves({
-      'form': {
-        'name': 'Formed Form 225',
-        'owner_email': 'test@howzit.com',
-        'fields': [
-          {
-            'name': 'product',
-            'label': 'Product',
-            'type': 'text',
-            'min_length': 3,
-            'max_length': 15,
-            'regex': null,
-            'required': 1,
-            'order_index': 1
-          },
-          {
-            'name': 'email',
-            'label': 'Email Address',
-            'type': 'email',
-            'min_length': 7,
-            'max_length': 56,
-            'regex': null,
-            'required': 1,
-            'order_index': 2
-          },
-          {
-            'name': 'message',
-            'label': 'Your message',
-            'type': 'text',
-            'min_length': 10,
-            'max_length': 512,
-            'regex': null,
-            'required': 1,
-            'order_index': 3
-          }
-        ]
-      },
-      'token': 'c089871c-af8d-435c-98ca-41d66d116bca'
-    })
+    let stub = sinon.stub(driver, 'get').resolves(validFormResponse)
 
     let howzit = shallowMount(Howzit, {
       localVue,
@@ -288,44 +218,46 @@ describe('Howzit.vue', () => {
     setTimeout(() => {
       howzit.vm.$nextTick(() => {
         howzit.setData({
-          form: [
-            {
-              'name': 'product',
-              'label': 'Product',
-              'type': 'text',
-              'min_length': 3,
-              'max_length': 15,
-              'regex': null,
-              'required': 1,
-              'order_index': 1,
-              'value': 'a'
-            },
-            {
-              'name': 'email',
-              'label': 'Email Address',
-              'type': 'email',
-              'min_length': 7,
-              'max_length': 56,
-              'regex': null,
-              'required': 1,
-              'order_index': 2,
-              'value': 'b'
-            },
-            {
-              'name': 'message',
-              'label': 'Your message',
-              'type': 'text',
-              'min_length': 10,
-              'max_length': 512,
-              'regex': null,
-              'required': 1,
-              'order_index': 3,
-              'value': 'c'
-            }
-          ]
+          form: {
+            fields: [
+              {
+                'name': 'product',
+                'label': 'Product',
+                'type': 'text',
+                'min_length': 3,
+                'max_length': 15,
+                'regex': null,
+                'required': 1,
+                'order_index': 1,
+                'value': 'a'
+              },
+              {
+                'name': 'email',
+                'label': 'Email Address',
+                'type': 'email',
+                'min_length': 7,
+                'max_length': 56,
+                'regex': null,
+                'required': 1,
+                'order_index': 2,
+                'value': 'b'
+              },
+              {
+                'name': 'message',
+                'label': 'Your message',
+                'type': 'text',
+                'min_length': 10,
+                'max_length': 512,
+                'regex': null,
+                'required': 1,
+                'order_index': 3,
+                'value': 'c'
+              }
+            ]
+          }
         })
 
-        let sendStub = sinon.stub(driver, 'post').rejects({error: 'Server error'})
+        let sendStub = sinon.stub(driver, 'post').rejects(new Error('Request failed with status code 500'))
 
         expect(howzit.vm.submitted).to.equal(false)
         expect(howzit.vm.errored).to.equal(false)

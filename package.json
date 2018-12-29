@@ -1,6 +1,6 @@
 {
   "name": "@unicorns/howzit-vue",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Vue component for Howzit contact forms",
   "author": "Unicorn Global et al",
   "license": "MIT",
@@ -61,7 +61,7 @@
     "include": [
       "src"
     ],
-    "instrument": false,
+    "instrument": true,
     "check-coverage": true,
     "per-file": true,
     "reporter": [

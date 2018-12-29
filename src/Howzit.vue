@@ -22,6 +22,7 @@
 
 <script>
   import { loadForm, sendForm } from '@/api/howzit'
+  import { configure } from '@/api/driver'
 
   export default {
     props: {
@@ -39,30 +40,41 @@
         token: null
       }
     },
-    async mounted() {
-      const data = await loadForm(this.formId)
+    async created() {
+      configure(this.$howzit)
+      const response = await loadForm(this.formId)
 
-      if (!data.form || !data.token) {
-        console.log('Bad configuration received from Howzit')
+      if (!response.data || !response.data.form || !response.data.token) {
+        console.error('Bad configuration received from Howzit')
         this.errored = true
         return
       }
 
-      this.form = data.form
-      this.token = data.token
+      this.form = response.data.form
+      this.token = response.data.token
       this.loaded = true
     },
     methods: {
       async submit() {
-        const response = await sendForm(this.form, this.formId)
-
-        if (response.error && response.error === 'Server error') {
-          this.errored = true
+        let submission = {
+          token: this.token
         }
 
-        if (response.data && response.data === 'OK') {
+        for (let field in this.form.fields) {
+          submission = {
+            ...submission,
+            [this.form.fields[field].name]: this.form.fields[field].value
+          }
+        }
+
+        const response = await sendForm(submission, this.formId)
+
+        if (response && response.data && response.data.success  === true) {
           this.submitted = true
+          return
         }
+
+        this.errored = true
       }
     }
   }

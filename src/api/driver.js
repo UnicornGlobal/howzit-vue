@@ -1,6 +1,9 @@
 import driver from 'axios'
 
-driver.defaults.baseURL = process.env.HOWZIT_API
-driver.defaults.headers.common['App'] = process.env.APP_ID
+export const configure = (config) => {
+  driver.defaults.baseURL = config.url
+  driver.defaults.headers.common['App'] = config.appId
+  driver.defaults.headers.common['Debug-Token'] = config.debugToken
+}
 
 export default driver
