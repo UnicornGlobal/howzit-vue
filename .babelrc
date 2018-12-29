@@ -1,5 +1,12 @@
 {
   "env": {
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env"
+        ]
+      ]
+    },
     "development": {
       "presets": [
         [

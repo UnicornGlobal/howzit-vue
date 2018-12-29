@@ -1,6 +1,6 @@
 {
   "name": "@unicorns/howzit-vue",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Vue component for Howzit contact forms",
   "author": "Unicorn Global et al",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "index.js.map"
   ],
   "homepage": "https://github.com/UnicornGlobal/howzit-vue#readme",
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^0.18.0"
   },
   "devDependencies": {
