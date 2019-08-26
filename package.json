@@ -54,9 +54,9 @@
     "nyc": "^13.1.0",
     "sinon": "^7.2.2",
     "sinon-chai": "^3.3.0",
-    "vue": "2.5.22",
+    "vue": "2.6.10",
     "vue-loader": "^15.4.2",
-    "vue-template-compiler": "2.5.22",
+    "vue-template-compiler": "2.6.10",
     "webpack": "^4.28.1",
     "webpack-cli": "^3.1.2"
   },
