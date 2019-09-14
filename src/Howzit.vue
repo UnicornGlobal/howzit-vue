@@ -1,20 +1,45 @@
 <template>
   <div class="howzit">
-    <div v-if="errored" class="howzit-error">
+    <div
+      v-if="errored"
+      class="howzit-error"
+    >
       ERROR
     </div>
-    <div v-else-if="submitted" class="howzit-submitted">
+    <div
+      v-else-if="submitted"
+      class="howzit-submitted"
+    >
       SUBMITTED
     </div>
-    <div v-else-if="loaded" class="howzit-form">
+    <div
+      v-else-if="loaded"
+      class="howzit-form"
+    >
       <p>Contact {{ form.name }}</p>
-      <div v-for="(field, key) in form.fields" :key="key">
+      <div
+        v-for="(field, key) in form.fields"
+        :key="key"
+      >
         <label :for="field.name">{{ field.label }}</label>
-        <input :type="field.type" :name="field.name" :required="field.required ? true : false" v-model="field.value" />
+        <input
+          v-model="field.value"
+          :type="field.type"
+          :name="field.name"
+          :required="field.required ? true : false"
+        >
       </div>
-      <button type="submit" @click="submit">SUBMIT</button>
+      <button
+        type="submit"
+        @click="submit"
+      >
+        SUBMIT
+      </button>
     </div>
-    <div v-else class="howzit-loading">
+    <div
+      v-else
+      class="howzit-loading"
+    >
       LOADING
     </div>
   </div>
