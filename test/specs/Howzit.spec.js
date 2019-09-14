@@ -4,8 +4,6 @@ import driver from '@/api/driver.js'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import sinon from 'sinon'
 
-let localVue = createLocalVue()
-
 let validFormResponse = {
   'data': {
     'form': {
@@ -48,14 +46,18 @@ let validFormResponse = {
   }
 }
 
-localVue.use(Howzit, {
-  url: 'https://localhost:9000',
-  appId: 'xxx'
-})
-
 describe('Howzit.vue', () => {
+  let localVue = createLocalVue()
+
+  localVue.use(Howzit, {
+    url: 'https://localhost:9000/api/contact',
+    appId: 'xxx'
+  })
+
   it('Installs correctly', () => {
     expect(localVue.prototype.$howzit).to.be.an('object')
+    expect(localVue.prototype.$howzit.appId).to.equal('xxx')
+    expect(localVue.prototype.$howzit.debugToken).to.be.equal(undefined)
   })
 
   it('Handles bad remote form', () => {
@@ -283,5 +285,30 @@ describe('Howzit.vue', () => {
     }, 1)
 
     stub.restore()
+  })
+})
+
+describe('Howzit.vue (Debug Mode)', () => {
+  let localVue = createLocalVue()
+
+  localVue.use(Howzit, {
+    url: 'https://localhost:9000/api/contact',
+    appId: 'xxxyyyzzz',
+    debugToken: 'abc'
+  })
+
+  it('Installs with debug token', () => {
+    let howzit = shallowMount(Howzit, {
+      localVue,
+      propsData: {
+        formId: 'xxx'
+      }
+    })
+
+    expect(localVue.prototype.$howzit).to.be.an('object')
+    expect(localVue.prototype.$howzit.appId).to.equal('xxxyyyzzz')
+    expect(localVue.prototype.$howzit.debugToken).to.equal('abc')
+
+    expect(howzit.vm.errored).to.equal(false)
   })
 })

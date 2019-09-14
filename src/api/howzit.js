@@ -3,7 +3,7 @@ import driver from '@/api/driver'
 
 const fetchForm = (formId) => {
   return driver
-    .get(`/public/forms/${formId}`)
+    .get(`/${formId}`)
     .then(result => {
       return result
     })
@@ -14,7 +14,7 @@ const fetchForm = (formId) => {
 
 const submitForm = (fields, formId) => {
   return driver
-    .post(`/public/forms/${formId}/response`, fields)
+    .post(`/${formId}/submit`, fields)
     .then(result => {
       return result
     })
