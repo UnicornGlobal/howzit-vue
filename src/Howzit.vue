@@ -12,30 +12,58 @@
     >
       SUBMITTED
     </div>
-    <div
+    <form
       v-else-if="loaded"
       class="howzit-form"
     >
-      <p>Contact {{ form.name }}</p>
+      <p class="howzit-title">
+        {{ form.name }}
+      </p>
       <div
         v-for="(field, key) in form.fields"
         :key="key"
       >
-        <label :for="field.name">{{ field.label }}</label>
+        <label
+          :for="field.name"
+          class="howzit-label"
+        >{{ field.label }}</label>
+
         <input
+          v-if="field.type !== 'textarea'"
           v-model="field.value"
+          v-validate="field.required ? 'required' : ''"
+          :class="'howzit-input-' + field.type"
           :type="field.type"
           :name="field.name"
           :required="field.required ? true : false"
         >
+
+        <textarea
+          v-else
+          v-model="field.value"
+          v-validate="field.required ? 'required' : ''"
+          :rows="field.rows || 5"
+          :class="'howzit-input-' + field.type"
+          :type="field.type"
+          :name="field.name"
+          :required="field.required ? true : false"
+        />
+
+        <span
+          v-if="errors.has(field.name)"
+          class="howzit-validation-error"
+        >{{ errors.first(field.name) }}</span>
       </div>
-      <button
-        type="submit"
-        @click="submit"
-      >
-        SUBMIT
-      </button>
-    </div>
+      <div class="howzit-button-area">
+        <button
+          class="howzit-submit"
+          type="submit"
+          @click="submit"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </form>
     <div
       v-else
       class="howzit-loading"
@@ -81,16 +109,24 @@
     },
     methods: {
       async submit() {
+        console.log(this.$validator)
+        const valid = await this.$validator.validateAll()
+        if (!valid) {
+          return false
+        }
+
         let submission = {
           token: this.token
         }
 
         for (let field in this.form.fields) {
+          console.log(field,'<')
           submission = {
             ...submission,
             [this.form.fields[field].name]: this.form.fields[field].value
           }
         }
+        console.log(submission,'<<<<')
 
         const response = await sendForm(submission, this.formId)
 

@@ -145,6 +145,19 @@ This is a _naked component_.
 There are _no styles_ and _no style scoping_ it is 100% up to the host
 application to style the form that is rendered.
 
+The component that includes the form should set the following styles:
+
+- `div.howzit`
+- `p.howzit-title`
+- `form.howzit-form`
+- `label.howzit-label`
+- `input.howzit-input-[type]` (where `type` is the value of field.type)
+- `span.howzit-validation-error`
+- `button.howzit-submit`
+- `div.howzit-loading`
+- `div.howzit-error`
+- `div.howzit-submitted`
+
 ## Version History
 
 v2.0.0 is not backwards compatible with v1.x
