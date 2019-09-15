@@ -4,13 +4,17 @@
       v-if="errored"
       class="howzit-error"
     >
-      ERROR
+      <p class="howzit-error-body">
+        There was a problem submitting your request. Please try again later.
+      </p>
     </div>
     <div
       v-else-if="submitted"
       class="howzit-submitted"
     >
-      SUBMITTED
+      <p class="howzit-success-body">
+        Your request has been submitted successfully.
+      </p>
     </div>
     <form
       v-else-if="loaded"
@@ -58,7 +62,7 @@
         <button
           class="howzit-submit"
           type="submit"
-          @click="submit"
+          @click.prevent="submit()"
         >
           SUBMIT
         </button>
@@ -109,7 +113,6 @@
     },
     methods: {
       async submit() {
-        console.log(this.$validator)
         const valid = await this.$validator.validateAll()
         if (!valid) {
           return false
@@ -120,13 +123,11 @@
         }
 
         for (let field in this.form.fields) {
-          console.log(field,'<')
           submission = {
             ...submission,
             [this.form.fields[field].name]: this.form.fields[field].value
           }
         }
-        console.log(submission,'<<<<')
 
         const response = await sendForm(submission, this.formId)
 
